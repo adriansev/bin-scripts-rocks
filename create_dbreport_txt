@@ -1,0 +1,20 @@
+#!/bin/bash
+
+hosts=$(rocks list host interface | tail -n +4 | awk -F ":" '{print $1}' | uniq)
+
+for host in $hosts ; do
+    host_data=$(rocks list host ${host} | tail -n +2)
+    host_eth=$(rocks list host interface $host | grep private)
+
+    rack=$(echo ${host_data} | awk '{print $3}')
+    rank=$(echo ${host_data}  | awk '{print $4}')
+    membership=$(echo ${host_data}  | awk '{print $1}')
+    ncpus=$(echo ${host_data} | awk '{print $2}')
+
+    eth=$(echo ${host_eth} | awk '{print $2}')
+    ip=$(echo ${host_eth} | awk '{print $4}')
+    mac=$(echo ${host_eth} | awk '{print $3}')
+
+    /bin/echo -e "$host\t $rack\t $rank\t $membership\t $eth\t $ip\t $mac\t $ncpus"
+
+done

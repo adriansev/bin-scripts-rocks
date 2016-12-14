@@ -1,0 +1,2 @@
+#!/bin/bash
+qmgr -c 'p s' > torque_conf_$(date +%Y%m%d_%H%M%S`).txt
