@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cpuinfo=$(cat /proc/cpuinfo)
+
+phys_id_nr=$(echo "${cpuinfo}" | grep "physical id" | sort -u | wc -l)
+siblings_nr=$(echo "${cpuinfo}" | grep "siblings"   | sort -u | awk '{printf $3}')
+processor_nr=$(echo "${cpuinfo}" | grep "processor" | sort -u | wc -l)
+core_id_nr=$(echo "${cpuinfo}" | grep "core id"     | sort -u | wc -l)
+
+echo -e "Sockets\t\tSiblings\tTotal_cores\tCores/Node"
+echo -e ${phys_id_nr}"\t\t"${siblings_nr}"\t\t"${processor_nr}"\t\t"${core_id_nr}
+
+
+
