@@ -1,0 +1,17 @@
+#!/bin/bash
+
+temp_X7DVL () {
+temp_cpu=$(sensors -u coretemp-isa-* | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+temp_sys=$(sensors -u w83793-i2c-*   | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+}
+
+temp_H8SCM () {
+temp_cpu=$(sensors -u k10temp-pci-* | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+temp_sys=$(sensors -u w83795g-i2c-1-* | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+}
+
+temp_H8SGL () {
+temp_cpu=$(sensors -u k10temp-pci-* | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+temp_sys=$(sensors -u w83795g-i2c-0-* | awk 'BEGIN {average=0;nr=0} /temp._input/ {average+=$2;nr++} END{ print average/nr}')
+}
+

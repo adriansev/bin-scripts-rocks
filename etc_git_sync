@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ETC_BACKUP_DIR="/export/etc_git"
+
+now=`date +"%Y%m%d_%H%M%S"`
+
+cd /root/bin
+
+/root/bin/backup_maui_conf
+/root/bin/backup_torque_conf
+
+rsync --delete -auHAX /etc/      ${ETC_BACKUP_DIR}/etc/
+rsync --delete -auHAX /root/bin/ ${ETC_BACKUP_DIR}/root_bin/
+
+cd ${ETC_BACKUP_DIR}
+git add -Af
+git commit -a -m $now
+

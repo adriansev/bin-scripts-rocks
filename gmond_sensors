@@ -1,0 +1,38 @@
+#!/bin/bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source ${DIR}/get_temp_f
+
+mb_name=$(cat /sys/class/dmi/id/board_name)
+##echo $mb_name
+
+LIFETIME="--tmax=240 --dmax=0"
+
+case "${mb_name}" in
+    'X7DVL') temp_X7DVL;;
+    'H8SCM') temp_H8SCM;;
+    'H8SGL') temp_H8SGL;;
+    *) echo "Motherboard name was not found" && exit 1;;
+esac
+
+gmetric -g "lm_sensors" -n "temp.cpu" -v $temp_cpu -t "float" -u "C" -s "both" -D "Average CPU temperature"    -T "Average CPU temperature"    $LIFETIME
+gmetric -g "lm_sensors" -n "temp.sys" -v $temp_sys -t "float" -u "C" -s "both" -D "Average System temperature" -T "Average System temperature" $LIFETIME
+
+
+#  -c, --conf=STRING     The configuration file to use for finding send channels (default=`/etc/ganglia/gmond.conf')
+#  -n, --name=STRING     Name of the metric
+#  -v, --value=STRING    Value of the metric
+#  -t, --type=STRING     Either string|int8|uint8|int16|uint16|int32|uint32|float|double
+#  -u, --units=STRING    Unit of measure for the value e.g. Kilobytes, Celcius (default=`')
+#  -s, --slope=STRING    Either zero|positive|negative|both|derivative  (default=`both')
+#  -x, --tmax=INT        The maximum time in seconds between gmetric calls (default=`60')
+#  -d, --dmax=INT        The lifetime in seconds of this metric  (default=`0')
+#  -g, --group=STRING    Group(s) of the metric (comma-separated)
+#  -C, --cluster=STRING  Cluster of the metric
+#  -D, --desc=STRING     Description of the metric
+#  -T, --title=STRING    Title of the metric
+#  -S, --spoof=STRING    IP address and name of host/device (colon separated) we are spoofing  (default=`')
+#  -H, --heartbeat       spoof a heartbeat message (use with spoof option)
+
+
